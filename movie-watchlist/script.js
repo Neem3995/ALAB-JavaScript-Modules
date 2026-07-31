@@ -6,11 +6,11 @@ import {
   validateMovieTitle,
   validateMovieRating,
 } from "./modules/validation.js";
+import { createMovieCard } from "./modules/movieDisplay.js";
 import {
-  createMovieCard,
-  updateMovieCount,
-  updateEmptyMessage,
-} from "./modules/movieDisplay.js";
+  handleMovieClick,
+  applyMovieFilter,
+} from "./modules/movieActions.js";
 
 // -----------------------------
 // Part 1 - Cache DOM Elements
@@ -82,100 +82,14 @@ movieRatingInput.addEventListener("blur", function () {
   validateMovieRating(movieRatingInput, ratingError);
 });
 
-movieList.addEventListener("click", handleMovieClick);
+movieList.addEventListener("click", function (event) {
+  handleMovieClick(event, movieFilter, movieCount, movieList);
+});
 
-movieFilter.addEventListener("change", applyMovieFilter);
+movieFilter.addEventListener("change", function () {
+  applyMovieFilter(movieFilter);
+});
 
-movieList.addEventListener("click", handleMovieClick);
-
-movieFilter.addEventListener("change", applyMovieFilter);
-
-// -----------------------------
-// Part 9 - Handle Movie Buttons
-// -----------------------------
-
-function handleMovieClick(event) {
-  const clickedElement = event.target;
-
-  if (
-    !clickedElement.classList.contains("watched-btn") &&
-    !clickedElement.classList.contains("remove-btn")
-  ) {
-    return;
-  }
-
-  const buttonContainer = clickedElement.parentNode;
-  const movieCard = buttonContainer.parentNode;
-
-  if (clickedElement.classList.contains("watched-btn")) {
-    toggleWatchedMovie(movieCard, clickedElement);
-  }
-
-  if (clickedElement.classList.contains("remove-btn")) {
-    removeMovie(movieCard);
-  }
-}
-
-function toggleWatchedMovie(movieCard, watchedButton) {
-  movieCard.classList.toggle("watched");
-
-  const isWatched = movieCard.classList.contains("watched");
-
-  if (isWatched) {
-    movieCard.setAttribute("data-status", "watched");
-    watchedButton.textContent = "Mark Unwatched";
-    watchedButton.setAttribute(
-      "title",
-      "Mark this movie as not watched"
-    );
-  } else {
-    movieCard.setAttribute("data-status", "unwatched");
-    watchedButton.textContent = "Mark Watched";
-    watchedButton.setAttribute(
-      "title",
-      "Mark this movie as watched"
-    );
-  }
-
-  applyMovieFilter();
-}
-
-function removeMovie(movieCard) {
-  const movieTitle = movieCard.firstElementChild.textContent;
-
-  const userConfirmed = window.confirm(
-    `Are you sure you want to remove ${movieTitle}?`
-  );
-
-  if (userConfirmed) {
-    movieCard.remove();
-
-    updateMovieCount(movieCount);
-    updateEmptyMessage(movieList);
-  }
-}
-
-// -----------------------------
-// Part 10 - Filter Movies
-// -----------------------------
-
-function applyMovieFilter() {
-  const selectedFilter = movieFilter.value;
-
-  const movieCards = document.querySelectorAll(".movie-card");
-
-  movieCards.forEach(function (card) {
-    const movieStatus = card.getAttribute("data-status");
-
-    if (selectedFilter === "all") {
-      card.style.display = "block";
-    } else if (selectedFilter === movieStatus) {
-      card.style.display = "block";
-    } else {
-      card.style.display = "none";
-    }
-  });
-}
 // -----------------------------
 // Part 11 - BOM Information
 // -----------------------------
