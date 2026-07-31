@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="./style.css" />
+
+    <title>Joseph's Movie Watchlist</title>
+
+    <script src="./script.js" defer></script>
+</head>
+
+<body>
+    <header>
+        <h1>Joseph's Movie Watchlist</h1>
+        <p>Add movies, rate them, and keep track of what you have watched.</p>
+    </header>
+
+    <main>
+        <!-- Movie Form Section -->
+        <section class="form-section">
+            <h2>Add a Movie</h2>
+
+            <form id="movie-form">
+                <div class="form-group">
+                    <label for="movie-title">Movie Title</label>
+
+                    <input type="text" id="movie-title" name="movieTitle" placeholder="Enter a movie title"
+                        minlength="2" maxlength="50" required />
+
+                    <p id="title-error" class="error-message"></p>
+                </div>
+
+                <div class="form-group">
+                    <label for="movie-genre">Genre</label>
+
+                    <select id="movie-genre" name="movieGenre" required>
+                        <option value="">Choose a genre</option>
+                        <option value="Action">Action</option>
+                        <option value="Comedy">Comedy</option>
+                        <option value="Drama">Drama</option>
+                        <option value="Fantasy">Fantasy</option>
+                        <option value="Horror">Horror</option>
+                        <option value="Sci-Fi">Sci-Fi</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="movie-rating">Rating</label>
+
+                    <input type="number" id="movie-rating" name="movieRating" placeholder="1 through 10" min="1"
+                        max="10" required />
+
+                    <p id="rating-error" class="error-message"></p>
+                </div>
+
+                <button type="submit" id="add-movie-btn">Add Movie</button>
+            </form>
+        </section>
+
+        <!-- Filter Section -->
+        <section class="filter-section">
+            <div>
+                <label for="movie-filter">Filter Movies</label>
+
+                <select id="movie-filter">
+                    <option value="all">All Movies</option>
+                    <option value="watched">Watched</option>
+                    <option value="unwatched">Not Watched</option>
+                </select>
+            </div>
+
+            <p id="movie-count">Movies: 0</p>
+        </section>
+
+        <!-- Movie List Section -->
+        <section class="movie-section">
+            <h2>My Movies</h2>
+
+            <div id="movie-list"></div>
+        </section>
+    </main>
+
+    <!-- Movie Card Template -->
+    <template id="movie-template">
+        <article class="movie-card" data-status="unwatched">
+            <h3 class="movie-card-title"></h3>
+
+            <p class="movie-card-genre"></p>
+
+            <p class="movie-card-rating"></p>
+
+            <div class="movie-actions">
+                <button type="button" class="watched-btn" title="Mark this movie as watched">
+                    Mark Watched
+                </button>
+
+                <button type="button" class="remove-btn" title="Remove this movie">
+                    Remove
+                </button>
+            </div>
+        </article>
+    </template>
+
+    <footer>
+        <p>Created by Joseph Garcia for SBA 316</p>
+    </footer>
+</body>
+
+</html>
