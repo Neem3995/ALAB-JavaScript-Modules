@@ -6,6 +6,11 @@ import {
   validateMovieTitle,
   validateMovieRating,
 } from "./modules/validation.js";
+import {
+  createMovieCard,
+  updateMovieCount,
+  updateEmptyMessage,
+} from "./modules/movieDisplay.js";
 
 // -----------------------------
 // Part 1 - Cache DOM Elements
@@ -24,87 +29,12 @@ const titleError = document.querySelector("#title-error");
 const ratingError = document.querySelector("#rating-error");
 
 // -----------------------------
-// Part 3 - Create Movie Cards
-// -----------------------------
-
-function createMovieCard(movie) {
-  const movieCardClone = movieTemplate.content.cloneNode(true);
-
-  const movieCard = movieCardClone.querySelector(".movie-card");
-
-  // Parent-child-sibling navigation
-  const movieTitle = movieCard.firstElementChild;
-  const movieGenre = movieTitle.nextElementSibling;
-  const movieRating = movieGenre.nextElementSibling;
-
-  movieTitle.textContent = movie.title;
-  movieGenre.textContent = `Genre: ${movie.genre}`;
-  movieRating.textContent = `Rating: ${movie.rating}/10`;
-
-  movieCard.setAttribute("data-title", movie.title.toLowerCase());
-  movieCard.setAttribute(
-    "data-status",
-    movie.watched ? "watched" : "unwatched"
-  );
-
-  if (movie.watched) {
-    movieCard.classList.add("watched");
-
-    const watchedButton = movieCard.querySelector(".watched-btn");
-
-    watchedButton.textContent = "Mark Unwatched";
-    watchedButton.setAttribute(
-      "title",
-      "Mark this movie as not watched"
-    );
-  }
-
-  movieList.prepend(movieCardClone);
-
-  updateMovieCount();
-  updateEmptyMessage();
-}
-
-// -----------------------------
 // Part 4 - Display Starter Movies
 // -----------------------------
 
 movies.forEach(function (movie) {
-  createMovieCard(movie);
+  createMovieCard(movie, movieTemplate, movieList, movieCount);
 });
-
-// -----------------------------
-// Part 5 - Update Movie Count
-// -----------------------------
-
-function updateMovieCount() {
-  const movieCards = document.querySelectorAll(".movie-card");
-
-  movieCount.textContent = `Movies: ${movieCards.length}`;
-}
-
-// -----------------------------
-// Part 6 - Empty List Message
-// -----------------------------
-
-function updateEmptyMessage() {
-  const movieCards = document.querySelectorAll(".movie-card");
-  const currentEmptyMessage = document.querySelector("#empty-message");
-
-  if (movieCards.length === 0 && !currentEmptyMessage) {
-    const emptyMessage = document.createElement("p");
-
-    emptyMessage.id = "empty-message";
-    emptyMessage.textContent =
-      "Your movie watchlist is empty. Add a movie above.";
-
-    movieList.appendChild(emptyMessage);
-  }
-
-  if (movieCards.length > 0 && currentEmptyMessage) {
-    currentEmptyMessage.remove();
-  }
-}
 
 // -----------------------------
 // Part 8 - Handle Form Submission
@@ -128,7 +58,7 @@ function handleMovieSubmit(event) {
     watched: false,
   };
 
-  createMovieCard(newMovie);
+  createMovieCard(newMovie, movieTemplate, movieList, movieCount);
 
   movieForm.reset();
 
@@ -220,8 +150,8 @@ function removeMovie(movieCard) {
   if (userConfirmed) {
     movieCard.remove();
 
-    updateMovieCount();
-    updateEmptyMessage();
+    updateMovieCount(movieCount);
+    updateEmptyMessage(movieList);
   }
 }
 
