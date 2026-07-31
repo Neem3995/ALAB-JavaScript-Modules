@@ -1,7 +1,7 @@
-import { Character } from "./modules/Character.js";
 import { Companion } from "./modules/Companion.js";
 import { AdventurerFactory } from "./modules/AdventurerFactory.js";
 import { duel } from "./modules/duel.js";
+import { Enemy } from "./modules/Enemy.js";
 
 //=============================
 //     Humble Beginnings
@@ -110,25 +110,6 @@ duel(robin, giorno);
 //       Experimentation
 //           Part 7
 //=============================
-
-// Enemy inherits everything from Character
-class Enemy extends Character {
-  constructor(name, type) {
-    super(name);
-
-    // adding the enemy type
-    this.type = type;
-  }
-
-  // enemies can attack another character
-  attack(character) {
-    console.log(`${this.name} attacks ${character.name}!`);
-
-    character.health--;
-
-    console.log(`${character.name} now has ${character.health} health.`);
-  }
-}
 
 // creating an enemy
 const goblin = new Enemy("Grim", "Goblin");
