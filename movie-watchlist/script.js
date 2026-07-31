@@ -2,6 +2,10 @@
 // SBA 316 - The Document Object Model
 
 import { movies } from "./modules/movieData.js";
+import {
+  validateMovieTitle,
+  validateMovieRating,
+} from "./modules/validation.js";
 
 // -----------------------------
 // Part 1 - Cache DOM Elements
@@ -103,62 +107,14 @@ function updateEmptyMessage() {
 }
 
 // -----------------------------
-// Part 7 - Validate Form Inputs
-// -----------------------------
-
-function validateMovieTitle() {
-  const titleValue = movieTitleInput.value.trim();
-
-  if (titleValue.length < 2) {
-    titleError.textContent =
-      "The movie title must contain at least 2 characters.";
-
-    movieTitleInput.classList.add("invalid");
-    movieTitleInput.setAttribute("aria-invalid", "true");
-
-    return false;
-  }
-
-  titleError.textContent = "";
-  movieTitleInput.classList.remove("invalid");
-  movieTitleInput.setAttribute("aria-invalid", "false");
-
-  return true;
-}
-
-function validateMovieRating() {
-  const ratingValue = Number(movieRatingInput.value);
-
-  if (
-    movieRatingInput.value === "" ||
-    ratingValue < 1 ||
-    ratingValue > 10
-  ) {
-    ratingError.textContent =
-      "The rating must be between 1 and 10.";
-
-    movieRatingInput.classList.add("invalid");
-    movieRatingInput.setAttribute("aria-invalid", "true");
-
-    return false;
-  }
-
-  ratingError.textContent = "";
-  movieRatingInput.classList.remove("invalid");
-  movieRatingInput.setAttribute("aria-invalid", "false");
-
-  return true;
-}
-
-// -----------------------------
 // Part 8 - Handle Form Submission
 // -----------------------------
 
 function handleMovieSubmit(event) {
   event.preventDefault();
 
-  const titleIsValid = validateMovieTitle();
-  const ratingIsValid = validateMovieRating();
+  const titleIsValid = validateMovieTitle(movieTitleInput, titleError);
+  const ratingIsValid = validateMovieRating(movieRatingInput, ratingError);
 
   if (!titleIsValid || !ratingIsValid) {
     window.alert("Please correct the form before adding the movie.");
@@ -188,9 +144,13 @@ function handleMovieSubmit(event) {
 }
 movieForm.addEventListener("submit", handleMovieSubmit);
 
-movieTitleInput.addEventListener("blur", validateMovieTitle);
+movieTitleInput.addEventListener("blur", function () {
+  validateMovieTitle(movieTitleInput, titleError);
+});
 
-movieRatingInput.addEventListener("blur", validateMovieRating);
+movieRatingInput.addEventListener("blur", function () {
+  validateMovieRating(movieRatingInput, ratingError);
+});
 
 movieList.addEventListener("click", handleMovieClick);
 
