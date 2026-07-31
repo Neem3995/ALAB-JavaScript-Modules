@@ -1,6 +1,6 @@
 import { Character } from "./modules/Character.js";
-import { Adventurer } from "./modules/Adventurer.js";
 import { Companion } from "./modules/Companion.js";
+import { AdventurerFactory } from "./modules/AdventurerFactory.js";
 
 //=============================
 //     Humble Beginnings
@@ -55,36 +55,6 @@ adventurer.roll(5);
 //       Adventurer Factory
 //           Part 5
 //=============================
-
-// factory used to create adventurers with the same role
-class AdventurerFactory {
-  constructor(role) {
-    this.role = role;
-    this.adventurers = [];
-  }
-
-  // creating a new adventurer
-  generate(name) {
-    const newAdventurer = new Adventurer(name, this.role);
-
-    this.adventurers.push(newAdventurer);
-
-    // returning the new adventurer
-    return newAdventurer;
-  }
-
-  // finding an adventurer by their position
-  findByIndex(index) {
-    return this.adventurers[index];
-  }
-
-  // finding an adventurer by their name
-  findByName(name) {
-    return this.adventurers.find((adventurer) => {
-      return adventurer.name === name;
-    });
-  }
-}
 
 // creating a factory for Fighters
 const fighterFactory = new AdventurerFactory("Fighter");
