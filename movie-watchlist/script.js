@@ -1,6 +1,8 @@
 // Joseph Garcia
 // SBA 316 - The Document Object Model
 
+import { movies } from "./modules/movieData.js";
+
 // -----------------------------
 // Part 1 - Cache DOM Elements
 // -----------------------------
@@ -16,31 +18,6 @@ const movieFilter = document.querySelector("#movie-filter");
 const movieCount = document.querySelector("#movie-count");
 const titleError = document.querySelector("#title-error");
 const ratingError = document.querySelector("#rating-error");
-
-// -----------------------------
-// Part 2 - Starter Movie Data
-// -----------------------------
-
-const movies = [
-  {
-    title: "Interstellar",
-    genre: "Sci-Fi",
-    rating: 10,
-    watched: false,
-  },
-  {
-    title: "Shrek",
-    genre: "Comedy",
-    rating: 9,
-    watched: true,
-  },
-  {
-    title: "Spider-Man 2",
-    genre: "Action",
-    rating: 9,
-    watched: false,
-  },
-];
 
 // -----------------------------
 // Part 3 - Create Movie Cards
